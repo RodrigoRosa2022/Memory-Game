@@ -6,34 +6,37 @@
   </head>
   <body>
     <table id="game">
-        <tr>
-          <td>
-            <div class="card" data-card-value="1">
-              <img src="card1-front.png" alt="Card Front">
-              <img src="card-back.png" alt="Card Back">
-            </div>
-          </td>
-          <td>
-            <div class="card" data-card-value="2">
-              <img src="card2-front.png" alt="Card Front">
-              <img src="card-back.png" alt="Card Back">
-            </div>
-          </td>
-        </tr>
-        <tr>
-            <td>
-              <div class="card" data-card-value="2">
-                <img src="card2-front.png" alt="Card Front">
-                <img src="card-back.png" alt="Card Back">
-              </div>
-            </td>
-            <td>
-              <div class="card" data-card-value="1">
-                <img src="card1-front.png" alt="Card Front">
-                <img src="card-back.png" alt="Card Back">
-              </div>
-            </td>
-        </tr>
+        <tbody>
+          <tr>
+            <!-- The loop will generate the cells for the cards here -->
+          </tr>
+        </tbody>
       </table>
+      
+      <script>
+        // Define an array of card values
+        const cardValues = [1, 2, 3, 4, 5, 6, 7, 8];
+      
+        // Get a reference to the game table
+        const gameTable = document.getElementById('game');
+      
+        // Loop through the card values
+        for (const value of cardValues) {
+          // Create a new cell element
+          const cell = document.createElement('td');
+      
+          // Create the HTML code for the card
+          cell.innerHTML = `
+            <div class="card" data-card-value="${value}">
+              <img src="card-${value}-front.png" alt="Card Front">
+              <img src="card-back.png" alt="Card Back">
+            </div>
+          `;
+      
+          // Append the cell to the game table
+          gameTable.firstElementChild.firstElementChild.appendChild(cell);
+        }
+      </script>
+      
   </body>
 </html>
