@@ -50,6 +50,12 @@
           gameTable.firstElementChild.lastElementChild.appendChild(cell2);
         }
 
+          // Add event listeners to the cards
+  const cards = document.querySelectorAll('.card');
+  for (const card of cards) {
+    card.addEventListener('click', handleCardClick);
+  }
+
          // Define a function to scramble the cards on the table
   function scrambleCards() {
     // Get a reference to the game table
@@ -88,42 +94,86 @@
 
   // Define a function to handle card clicks
   function handleCardClick(event) {
-    // Get a reference to the clicked card
-    const clickedCard = event.currentTarget;
+  // Get a reference to the clicked card
+  const clickedCard = event.currentTarget;
 
-    // Toggle the "selected" class on the clicked card
-    clickedCard.classList.toggle('selected');
+  // Toggle the "selected" class on the clicked card
+  clickedCard.classList.toggle('selected');
 
-    // Get a reference to the selected cards
-    const selectedCards = document.querySelectorAll('.selected');
+  // Get a reference to the selected cards
+  const selectedCards = document.querySelectorAll('.selected');
 
-    // If there are two selected cards, compare their values
-    if (selectedCards.length === 2) {
-      // Get the values of the selected cards
-      const card1Value = selectedCards[0].dataset.cardValue;
-      const card2Value = selectedCards[1].dataset.cardValue;
+  // If there are two selected cards, compare their values
+  if (selectedCards.length === 2) {
+    // Get the values of the selected cards
+    const card1Value = selectedCards[0].dataset.cardValue;
+    const card2Value = selectedCards[1].dataset.cardValue;
 
-      // Compare the values of the selected cards
-      if (card1Value === card2Value) {
-        // If the values are the same, remove the cards from the table
-        selectedCards[0].remove();
-        selectedCards[1].remove();
-      } else {
-        // If the values are different, deselect the cards
+    // Compare the values of the selected cards
+    if (card1Value === card2Value) {
+      // If the values match, remove the "selected" class from the cards
+      selectedCards[0].classList.remove('selected');
+      selectedCards[1].classList.remove('selected');
+    } else {
+      // If the values don't match, set a time delay before flipping the cards back down
+      setTimeout(() => {
         selectedCards[0].classList.remove('selected');
         selectedCards[1].classList.remove('selected');
-      }
+      }, 1000);
     }
   }
+}
 
-  // Add event listeners to the cards
-  const cards = document.querySelectorAll('.card');
-  for (const card of cards) {
-    card.addEventListener('click', handleCardClick);
-  }
+
+
 
 
       </script>
+
+<style>
+    .card {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card img:last-of-type {
+  position: absolute;
+  z-index: 2;
+}
+.selected {
+  transform: rotateY(180deg);
+}
+
+.card.flipped img:first-of-type {
+  display: block;
+}
+
+.card.flipped img:last-of-type {
+  display: none;
+}
+
+.card.selected img:first-child {
+  opacity: 1;
+}
+
+.card.selected img:last-child {
+  opacity: 0;
+}
+
+
+
+
+  </style>
+  
       
   </body>
 </html>
