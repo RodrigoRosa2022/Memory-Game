@@ -5,14 +5,19 @@
     <title>A memory game, by Rodrigo Rosa</title>
   </head>
   <body>
+    <button onclick="scrambleCards()">Shuffle Cards</button>
+
     <table id="game">
         <tbody>
           <tr>
-            <!-- The loop will generate the cells for the cards here -->
+            <!-- The loop will generate the cells for the first row of cards here -->
+          </tr>
+          <tr>
+            <!-- The loop will generate the cells for the second row of cards here -->
           </tr>
         </tbody>
-      </table>
-      
+      </table>      
+
       <script>
         // Define an array of card values
         const cardValues = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -22,20 +27,102 @@
       
         // Loop through the card values
         for (const value of cardValues) {
-          // Create a new cell element
-          const cell = document.createElement('td');
+          // Create two cell elements for each card value
+          const cell1 = document.createElement('td');
+          const cell2 = document.createElement('td');
       
-          // Create the HTML code for the card
-          cell.innerHTML = `
+          // Create the HTML code for the cards
+          cell1.innerHTML = `
+            <div class="card" data-card-value="${value}">
+              <img src="card-${value}-front.png" alt="Card Front">
+              <img src="card-back.png" alt="Card Back">
+            </div>
+          `;
+          cell2.innerHTML = `
             <div class="card" data-card-value="${value}">
               <img src="card-${value}-front.png" alt="Card Front">
               <img src="card-back.png" alt="Card Back">
             </div>
           `;
       
-          // Append the cell to the game table
-          gameTable.firstElementChild.firstElementChild.appendChild(cell);
+          // Append the cell elements to the game table
+          gameTable.firstElementChild.firstElementChild.appendChild(cell1);
+          gameTable.firstElementChild.lastElementChild.appendChild(cell2);
         }
+
+         // Define a function to scramble the cards on the table
+  function scrambleCards() {
+    // Get a reference to the game table
+    const gameTable = document.getElementById('game');
+
+    // Get a reference to the rows of the game table
+    const rows = gameTable.firstElementChild.children;
+
+    // Loop through the rows of the game table
+    for (const row of rows) {
+      // Get a reference to the cells in the row
+      const cells = row.children;
+
+      // Convert the cells to an array
+      const cellArray = Array.from(cells);
+
+      // Shuffle the array of cells
+      shuffleArray(cellArray);
+
+      // Loop through the shuffled array of cells
+      for (const cell of cellArray) {
+        // Append the cell to the row
+        row.appendChild(cell);
+      }
+    }
+  }
+
+  // Define a function to shuffle an array
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+
+  // Define a function to handle card clicks
+  function handleCardClick(event) {
+    // Get a reference to the clicked card
+    const clickedCard = event.currentTarget;
+
+    // Toggle the "selected" class on the clicked card
+    clickedCard.classList.toggle('selected');
+
+    // Get a reference to the selected cards
+    const selectedCards = document.querySelectorAll('.selected');
+
+    // If there are two selected cards, compare their values
+    if (selectedCards.length === 2) {
+      // Get the values of the selected cards
+      const card1Value = selectedCards[0].dataset.cardValue;
+      const card2Value = selectedCards[1].dataset.cardValue;
+
+      // Compare the values of the selected cards
+      if (card1Value === card2Value) {
+        // If the values are the same, remove the cards from the table
+        selectedCards[0].remove();
+        selectedCards[1].remove();
+      } else {
+        // If the values are different, deselect the cards
+        selectedCards[0].classList.remove('selected');
+        selectedCards[1].classList.remove('selected');
+      }
+    }
+  }
+
+  // Add event listeners to the cards
+  const cards = document.querySelectorAll('.card');
+  for (const card of cards) {
+    card.addEventListener('click', handleCardClick);
+  }
+
+
       </script>
       
   </body>
