@@ -5,6 +5,13 @@
     <title>A memory game, by Rodrigo Rosa</title>
   </head>
   <body>
+      <!-- Add a header to the page -->
+  <div id="header">
+    Memory Game
+    <br>
+    by Rodrigo Rosa
+  </div>
+
     <button onclick="scrambleCards()">Shuffle Cards</button>
 
     <table id="game">
@@ -168,6 +175,19 @@
 .card.selected img:last-child {
   opacity: 0;
 }
+
+  /* Add some styling to the header */
+  #header {
+      
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    margin: 20px 0;
+  }
 
 
 
